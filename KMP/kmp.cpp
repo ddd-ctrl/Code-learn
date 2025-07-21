@@ -47,7 +47,7 @@ vector<int> kmpSearch(const string& text, const string& pattern) {
 // 测试函数
 void testKMP() {
     cout << "测试1：基础测试..." << endl;
-    string text1 = "ABABDABACDABABCABAB";
+    string text1 = "ABABDABACDACBABCABAB";
     string pattern1 = "ABABCABAB";
     vector<int> result1 = kmpSearch(text1, pattern1);
     cout << "匹配位置：";
