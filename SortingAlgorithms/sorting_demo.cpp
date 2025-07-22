@@ -75,6 +75,58 @@ void heapify(vector<int>& arr, int n, int i) {
     }
 }
 
+// 归并排序辅助函数：合并两个有序子数组
+void merge(vector<int>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // 创建临时数组
+    vector<int> L(n1), R(n2);
+
+    // 复制数据到临时数组
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    // 合并临时数组回原数组
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // 复制剩余元素
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+// 归并排序主函数
+void mergeSort(vector<int>& arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2; // 避免溢出
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
 // 堆排序
 void heapSort(vector<int>& arr) {
     int n = arr.size();
@@ -140,6 +192,11 @@ int main() {
     }, "快速排序");
     
     testSortingAlgorithm(heapSort, "堆排序");
+    
+    // 归并排序需要lambda包装
+    testSortingAlgorithm([](vector<int>& arr) { 
+        mergeSort(arr, 0, arr.size()-1); 
+    }, "归并排序");
     
     cout << "所有测试完成！" << endl;
     return 0;
